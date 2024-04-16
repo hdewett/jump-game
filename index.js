@@ -5,6 +5,7 @@ const GAME_WIDTH = 800;
 const GAME_HEIGHT = 200;
 
 let scaleRatio = null;
+let previousTime = null;
 
 function setScreen(){
   scaleRatio = getScaleRatio();
@@ -39,3 +40,24 @@ function getScaleRatio() {
     return screenHeight/GAME_HEIGHT;
   }
 }
+
+function clearScreen() {
+  ctx.fillStyle = "AliceBlue";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function gameLoop(currentTime) {
+  if(previousTime === null) {
+    previousTime = currentTime;
+    requestAnimationFrame(gameLoop);
+    return;
+  }
+
+  const frameTimeDelta = currentTime - previousTime;
+  previousTime = currentTime;
+  console.log(frameTimeDelta);
+  clearScreen();
+  requestAnimationFrame(gameLoop);
+}
+
+requestAnimationFrame(gameLoop);
